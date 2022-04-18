@@ -1,0 +1,10 @@
+week
+wikipedia
+wordsearch
+sleuth
+find
+random
+backward
+vertical
+diagonal
+horizontal
