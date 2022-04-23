@@ -448,56 +448,8 @@ void BottomLeftToTopRight(char** arr, int row, int col, char str[])
 		count++;
 	}
 }
-bool GeneralCheck(char** array, int row, int col, char word[], int movement)
+int main()
 {
-	int index = 0;
-	for (; word[index] != '\0'; index++)
-	{
-		if (array[row][col] != '*')
-		{
-			return false;
-		}
-		if (movement == 1)
-		{
-			col++;
-		}
-		if (movement == 2)
-		{
-			col--;
-		}
-		if (movement == 3)
-		{
-			row++;
-		}
-		if (movement == 4)
-		{
-			row--;
-		}
-		if (movement == 5)
-		{
-			row++;
-			col++;
-		}
-		if (movement == 6)
-		{
-			row--;
-			col--;
-		}
-		if (movement == 7)
-		{
-			row++;
-			col--;
-		}
-		if (movement == 8)
-		{
-			row--;
-			col++;
-		}
-	}
-	return true;
-}
-int main(){
-
 	ifstream fin;
 	char str1[15];
 	int rand_row = 0;
@@ -514,89 +466,108 @@ int main(){
 	fin.open("Input.txt");
 	fin >> str1;
 	int length = strlen(str1);
-	while (!fin.eof()){
-	
+	while (!fin.eof())
+	{
 		fin >> str1;
-		if (strlen(str1) > length){
-		
+		if (strlen(str1) > length)
+		{
 			length = strlen(str1);
 		}
 	}
 	fin.close();
 	char** grid = 0;
-	length += 2;
+	length += 5;
 	rows = length;
 	cols = length;
 	grid = new char* [length];
-	for (int i = 0; i < length; i++){
-	
+	for (int i = 0; i < length; i++)
+	{
 		grid[i] = new char[length];
 	}
-	for (int i = 0; i < length; i++){
-	
-		for (int j = 0; j < length; j++){
-		
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
 			grid[i][j] = '*';
 		}
 	}
 	fin.open("Input.txt");
-	while (!fin.eof()){
-	
+	while (!fin.eof())
+	{
 		fin >> str1;
-		while (!word_placed){
-		
-			rand_row = rand() % length;
-			rand_col = rand() % length;
-			WordRangeRow = rand_row - (strlen(str1) - 1);
-			WordRangeCol = rand_col - (strlen(str1) - 1);
 
-			move = rand() % 8;
-			if ((rand_col + (strlen(str1) - 1)) < cols){
-			
-				space_check = GeneralCheck(grid, rand_row, rand_col, str1, 1);
-				if (space_check){
-				
-					Word_Left_To_Right(grid, length, length, str1);
-				}
-			}
-			else if (move == 1){
-			
-				Word_Right_to_Left(grid, length, length, str1);
-			}
-			else if (move == 2){
-			
-				Word_Top_To_Bottom(grid, length, length, str1);
-			}
-			else if (move == 3){
-			
-				Word_Bottom_to_Top(grid, length, length, str1);
-			}
-			else if (move == 4){
-			
-				Word_TopLeft_to_Bottomright(grid, length, length, str1);
-			}
-			else if (move == 5){
-			
-				Word_Bottomright_To_TopLeft(grid, length, length, str1);
-			}
-			else if (move == 6){
-			
-				TopPightToBottomLeft(grid, length, length, str1);
-			}
-			else if (move == 7){
-			
-				BottomLeftToTopRight(grid, length, length, str1);
-			}
+		move = rand() % 8;
+		if (move == 0)
+		{
+			Word_Left_To_Right(grid, length, length, str1);
+
+		}
+		else if (move == 1)
+		{
+			Word_Right_to_Left(grid, length, length, str1);
+		}
+		else if (move == 2)
+		{
+			Word_Top_To_Bottom(grid, length, length, str1);
+		}
+		else if (move == 3)
+		{
+			Word_Bottom_to_Top(grid, length, length, str1);
+		}
+		else if (move == 4)
+		{
+			Word_TopLeft_to_Bottomright(grid, length, length, str1);
+		}
+		else if (move == 5)
+		{
+			Word_Bottomright_To_TopLeft(grid, length, length, str1);
+		}
+		else if (move == 6)
+		{
+			TopPightToBottomLeft(grid, length, length, str1);
+		}
+		else if (move == 7)
+		{
+			BottomLeftToTopRight(grid, length, length, str1);
 		}
 	}
-	for (int i = 0; i < length; i++){
-	
-		for (int j = 0; j < length; j++){
-		
-			cout << grid[i][j] << "   ";
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
+			int filling = rand() % 26;
+			char c = 'a' + filling;
+
+			if (grid[i][j] == '*') {
+				grid[i][j] = c;
+			}
+
+		}
+	}
+
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
+			cout << grid[i][j] << ' ';
 		}
 		cout << endl;
 	}
+
+	ofstream fout;
+
+	fout.open("Grid.txt", 'r');
+
+	for (int i = 0; i < length; i++)
+	{
+		for (int j = 0; j < length; j++)
+		{
+			fout << grid[i][j];
+		}
+		fout << '\n';
+	}
+
+
 	system("pause");
 	return 0;
 }
